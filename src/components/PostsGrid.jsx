@@ -30,10 +30,10 @@ export default function PostsGrid() {
         className="flex -ml-4"
         columnClassName="pl-4"
       >
-        {images.map((src) => {
+        {images.map((src, idx) => {
           return (
             <div className="mt-4">
-              <img src={src} alt="" />
+              <img src={src} alt={idx} key={idx} />
             </div>
           );
         })}

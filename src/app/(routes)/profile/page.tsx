@@ -1,4 +1,9 @@
-import { ArrowBigLeftDash, BadgeCheck, Settings } from "lucide-react";
+import {
+  ArrowBigLeftDash,
+  BadgeCheck,
+  Settings,
+  SettingsIcon,
+} from "lucide-react";
 import profilepic from "@/../public/IMG_2304.jpg";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,9 +23,9 @@ export default function ProfilePage() {
             size={16}
           />
         </div>
-        <div>
-          <Settings />
-        </div>
+        <Link href={"/settings"}>
+          <SettingsIcon />
+        </Link>
       </section>
       <section className="mt-8 flex justify-center">
         <div className="size-48 p-2 bg-orange-500 rounded-full bg-gradient-to-tr from-orange to-red">
