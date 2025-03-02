@@ -1,23 +1,24 @@
-import {
-  ArrowBigLeftDash,
-  BadgeCheck,
-  Settings,
-  SettingsIcon,
-} from "lucide-react";
+import { ArrowBigLeftDash, BadgeCheck, SettingsIcon } from "lucide-react";
 import profilepic from "@/../public/IMG_2304.jpg";
 import Image from "next/image";
 import Link from "next/link";
 import PostsGrid from "@/components/PostsGrid";
+import { prisma } from "@/db";
+import { auth } from "@/auth";
 
-export default function ProfilePage() {
+export default async function ProfilePage() {
+  const session = await auth();
+  const profile = await prisma.user.findFirstOrThrow({
+    where: { email: session?.user?.email as string },
+  });
   return (
     <main>
       <section className="flex justify-between items-center">
-        <button>
+        <Link href={"/"}>
           <ArrowBigLeftDash />
-        </button>
+        </Link>
         <div className="font-bold flex items-start gap-1">
-          Ayush Trivedi
+          {profile?.username}
           <BadgeCheck
             className="bg-blue-600 text-white rounded-full"
             size={16}
@@ -37,10 +38,10 @@ export default function ProfilePage() {
         </div>
       </section>
       <section className="text-center mt-4">
-        <h1 className="text-xl font-bold">Ayush Trivedi</h1>
-        <p className="text-gray-500 mt-1 mb-1">Patient Gamer</p>
-        <p>Professional Red Dead Redemption 2 Enjoyer 🤠</p>
-        <p className="">contact: ayushtrivedi118@gmail.com</p>
+        <h1 className="text-xl font-bold">{profile.name}</h1>
+        <p className="text-gray-500 mt-1 mb-1">{profile.subtitle}</p>
+        <p>{profile.bio}</p>
+        <p className="">contact: {profile.email}</p>
       </section>
       <section>
         <div className="flex gap-4 justify-center mt-5 font-bold ">
