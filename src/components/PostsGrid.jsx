@@ -32,8 +32,8 @@ export default function PostsGrid() {
       >
         {images.map((src, idx) => {
           return (
-            <div className="mt-4">
-              <img src={src} alt={idx} key={idx} />
+            <div key={idx} className="mt-4">
+              <img src={src} alt={idx} />
             </div>
           );
         })}
