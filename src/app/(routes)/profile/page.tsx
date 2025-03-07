@@ -1,6 +1,4 @@
 import { ArrowBigLeftDash, BadgeCheck, SettingsIcon } from "lucide-react";
-import profilepic from "@/../public/IMG_2304.jpg";
-import Image from "next/image";
 import Link from "next/link";
 import PostsGrid from "@/components/PostsGrid";
 import { prisma } from "@/db";

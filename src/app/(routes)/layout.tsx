@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
+import MobileNav from "@/components/MobileNav";
+import DesktopNav from "@/components/DesktopNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,9 +29,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased p-4`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Theme>{children}</Theme>
+        <Theme>
+          <div className="flex">
+            <DesktopNav />
+            <div className="p-4 pt-6 flex justify-around w-full">
+              <div>{children}</div>
+            </div>
+          </div>
+
+          <MobileNav />
+        </Theme>
       </body>
     </html>
   );
