@@ -3,6 +3,7 @@ import { prisma } from "./db";
 
 export async function updateProfile(data: FormData, userEmail: string) {
   const userInfo = {
+    avatar: data.get("avatar") as string,
     username: data.get("username") as string,
     name: data.get("name") as string,
     subtitle: data.get("subtitle") as string,

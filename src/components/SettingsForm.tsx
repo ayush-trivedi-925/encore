@@ -1,19 +1,13 @@
 "use client";
 
 import { updateProfile } from "@/actions";
-import { prisma } from "@/db";
+
 import { User } from "@prisma/client";
 import { Button, TextArea, TextField } from "@radix-ui/themes";
 import { CloudUploadIcon } from "lucide-react";
 
 import { useRouter } from "next/navigation";
-
-type Profile = {
-  username: string | "";
-  name: string | "";
-  subtitle: string | "";
-  bio: string | "";
-};
+import { useEffect, useRef, useState } from "react";
 
 export default function SettingsForm({
   userEmail,
@@ -22,7 +16,25 @@ export default function SettingsForm({
   userEmail: string;
   profile: User;
 }) {
+  const [file, setFile] = useState<File>();
+  const [avatarUrl, setAvatarUrl] = useState(profile.avatar);
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>();
+
+  useEffect(() => {
+    if (!file) return;
+    const data = new FormData();
+    data.set("file", file as File);
+    fetch("/api/upload", {
+      method: "POST",
+      body: data,
+    }).then((response) =>
+      response.json().then((url) => {
+        setAvatarUrl(url);
+      })
+    );
+  }, [file]);
+
   return (
     <form
       action={async (data: FormData) => {
@@ -31,12 +43,25 @@ export default function SettingsForm({
         router.refresh();
       }}
     >
+      <input type="hidden" name="avatar" value={avatarUrl} />
       <div className="flex gap-4">
         <div>
-          <div className="rounded-full bg-gray-200 size-24"></div>
+          <div className="rounded-full bg-gray-200 size-24 overflow-hidden aspect-square ">
+            <img src={avatarUrl} alt="" />
+          </div>
         </div>
         <div className="self-end ">
-          <Button type="button" variant="surface">
+          <input
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={(event) => setFile(event.target?.files?.[0])}
+          />
+          <Button
+            type="button"
+            variant="surface"
+            onClick={() => fileInputRef?.current?.click()}
+          >
             <CloudUploadIcon />
             Change avatar
           </Button>

@@ -32,7 +32,7 @@ export default async function ProfilePage() {
         <div className="size-48 p-2 bg-orange-500 rounded-full bg-gradient-to-tr from-orange to-red">
           <div className="size-44 p-2 bg-white rounded-full">
             <div className="size-40 aspect-square overflow-hidden rounded-full">
-              <Image src={profilepic} alt="profile-picture" />
+              <img src={profile.avatar as string} alt="profile-picture" />
             </div>
           </div>
         </div>
