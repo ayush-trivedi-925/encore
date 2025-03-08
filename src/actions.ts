@@ -1,4 +1,5 @@
 "use server";
+import { auth } from "./auth";
 import { prisma } from "./db";
 
 export async function updateProfile(data: FormData, userEmail: string) {
@@ -20,4 +21,17 @@ export async function updateProfile(data: FormData, userEmail: string) {
       ...userInfo,
     },
   });
+}
+
+export async function publishPost(imageUrl: string, description: string) {
+  const session = await auth();
+
+  const postDoc = await prisma.post.create({
+    data: {
+      image: imageUrl,
+      description,
+      email: session?.user?.email as string,
+    },
+  });
+  return postDoc.id;
 }

@@ -16,10 +16,10 @@ export default function SettingsForm({
   userEmail: string;
   profile: User;
 }) {
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | null>(null);
   const [avatarUrl, setAvatarUrl] = useState(profile.avatar);
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!file) return;
@@ -43,11 +43,11 @@ export default function SettingsForm({
         router.refresh();
       }}
     >
-      <input type="hidden" name="avatar" value={avatarUrl} />
+      <input type="hidden" name="avatar" value={avatarUrl || ""} />
       <div className="flex gap-4">
         <div>
           <div className="rounded-full bg-gray-200 size-24 overflow-hidden aspect-square ">
-            <img src={avatarUrl} alt="" />
+            <img src={avatarUrl || ""} alt="Profile picture" />
           </div>
         </div>
         <div className="self-end ">
@@ -55,7 +55,7 @@ export default function SettingsForm({
             type="file"
             ref={fileInputRef}
             className="hidden"
-            onChange={(event) => setFile(event.target?.files?.[0])}
+            onChange={(event) => setFile(event.target?.files?.[0] || null)}
           />
           <Button
             type="button"
